@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#gggggg">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+
+    <link rel="stylesheet" href="./src/style.css">
+    <title>Lista de Animes</title>
+</head>
+<body>
+    <div>
+    <div class="header">
+        <div class="header-element">
+          <a href="index.html" style="text-decoration: none; color:inherit;">LISTAR</a>
+        </div>
+        <div class="header-element">
+          <a href="./src/adicionar.html" style="text-decoration: none; color:inherit;">ADICIONAR</a>
+        </div>
+        <div class="header-element">
+          <a href="./src/editar.html;" style="text-decoration: none; color:inherit;">EDITAR</a>
+        </div>
+      </div>
+</div>
+<div class="anime-list">
+<div id="anime-list" >
+</div>
+</div>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js').then(function(registration) {
+    console.log('Service Worker registrado com sucesso:', registration.scope);
+    }).catch(function(error) {
+    console.log('Falha ao registrar o Service Worker:', error);
+    });
+  }
+  
+  </script>
+
+<script>
+  window.onload = function () {
+      fetch("http://127.0.0.1:3000/anime/") 
+          .then(async (data) => {
+              const response = await data.json();
+              console.log({ response }) 
+              const list = document.getElementById("anime-list");
+              response.animes.forEach(animes => {
+                  const animeCard = document.createElement("div")
+                  const animeList = document.createElement("div")
+                  const animeName = document.createElement("p")
+                  const animeImg = document.createElement("img");
+                  const animeDesc = document.createElement("p")
+                  animeDesc.className = "desc";
+                  const animeYear = document.createElement("p")
+                  const animeGenre = document.createElement("p")
+                  
+                  animeImg.src = animes.img;
+                  animeName.append(animes.title + ` (${animes.year})`)
+                  animeDesc.append(`Descrição: ${animes.description}`)
+                  animeYear.append(animes.year)
+                  animeGenre.append(`Genero: ${animes.genre}`)
+                 
+                  animeList.appendChild(animeName)
+                  animeList.appendChild(animeImg)
+                  animeList.appendChild(animeGenre)
+                  animeList.appendChild(animeDesc)
+
+                  animeCard.appendChild(animeList)
+                  animeCard.className = "anime-card"
+                  list.appendChild(animeCard)
+});
+})
+}
+</script>
+
+</body>
+</html>

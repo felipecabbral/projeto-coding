@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+    <title>Lista de Animes</title>
+</head>
+<body>
+    <div>
+    <div class="header">
+        <div class="header-element">
+          <a href="../index.html" style="text-decoration: none; color:inherit;">LISTAR</a>
+        </div>
+        <div class="header-element">
+          <a href="./adicionar.html" style="text-decoration: none; color:inherit;">ADICIONAR</a>
+        </div>
+        <div class="header-element">
+          <a href="./editar.html" style="text-decoration: none; color:inherit;">EDITAR</a>
+        </div>
+      </div>
+</div>
+<div class="color">
+<div class="container">
+    <form id="postForm">
+      <h2 style="margin-bottom:10%;">Editar Anime</h2>
+      <div class="form-group">
+        <label for="id">Id:</label>
+        <input type="text" id="id" name="id" placeholder="Inserir Id">
+      </div>
+      <div class="form-group">
+        <label for="name">Nome:</label>
+        <input type="text" id="name" name="name" placeholder="Inserir Nome">
+      </div>
+      <div class="form-group">
+        <label for="description">Descrição:</label>
+        <input type="text" class="description"id="description" name="description" placeholder="Inserir Descrição">
+      </div>
+      <div class="form-group">
+        <label for="genre">Genero:</label>
+        <input type="text" class="genre"id="genre" name="genre" placeholder="Inserir Genero">
+      </div>
+      <div class="form-group">
+        <label for="year">Ano:</label>
+        <input type="number" id="year" name="year" placeholder="Inserir Ano">
+      </div>
+      <div class="form-group">
+        <label for="img">Link da Capa:</label>
+        <input type="text" id="img" name="img" placeholder="Inserir Link">
+      </div>
+      <div class="form-group" style="margin-top:35%;">
+        <input onclick="updateAnime()" type="submit" value="Submit" >
+      </div>
+    </form>
+  </div>
+</div>
+<script>
+function updateAnime(){
+    event.preventDefault();
+
+    const form = document.getElementById('postForm');
+    const name = form.name.value;
+    const description = form.description.value;
+    const genre = form.genre.value;
+    const year = form.year.value;
+    const img = form.img.value;
+    const host = "http://127.0.0.1:3000/anime/update/"+id;
+
+    const newAnime = {name, description, genre, year, img};
+
+    fetch(host, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newAnime)
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Resposta do servidor:', data);
+        form.reset();
+      })
+      .catch(error => {
+        console.error('Erro ao atualizar o anime:', error);
+      });
+    }
+</script>
+</body>
+</html>
